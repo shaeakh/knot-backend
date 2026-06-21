@@ -1,17 +1,16 @@
+import EnvConstant from './constants/envConstants';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-dotenv.config();
 import authRoutes from './routes/authRoutes';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = EnvConstant.PORT;
 
 app.use(
   cors({
-    origin: 'http://localhost:5173', // Allow requests from this exact origin
-    credentials: true, // Allow cookies and authorization headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Standard allowed methods
+    origin: EnvConstant.FRONTEND_URL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   }),
 );
 app.use(express.json());

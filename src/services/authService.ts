@@ -1,17 +1,16 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import EnvConstant from '../constants/envConstants';
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/userRepository';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(EnvConstant.GOOGLE_CLIENT_ID);
 const userRepository = new UserRepository();
 
 export class AuthService {
   async googleSignIn(token: string) {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: EnvConstant.GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();
@@ -37,7 +36,7 @@ export class AuthService {
     // 3. Generate App Token
     const appToken = jwt.sign(
       { userId: user.id, email: user.email },
-      process.env.JWT_SECRET as string,
+      EnvConstant.JWT_SECRET as string,
       { expiresIn: '7d' },
     );
 

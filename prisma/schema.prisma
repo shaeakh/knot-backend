@@ -7,12 +7,25 @@ datasource db {
   provider = "postgresql"
 }
 
+model AccessControll {
+  roleId               String @id @default(uuid())
+  roleName             String @unique
+  userModule           Json
+  tshirtModule         Json
+  accessControllModule Json
+  authModule           Json
+  users                User[]
+}
+
 model User {
-  id        String   @id @default(uuid()) // Automatically generates a unique UUID
-  googleId  String   @unique // Used to find returning users
+  id        String   @id @default(uuid())
+  googleId  String   @unique
   email     String   @unique
   name      String?
   avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  roleId String         @default("f9e74c8b-5a12-4c6e-8d9e-1a2b3c4d5e6f")
+  role   AccessControll @relation(fields: [roleId], references: [roleId])
 }

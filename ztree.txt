@@ -1,0 +1,76 @@
+�   .env
+�   .gitignore
+�   .prettierrc
+�   eslint.config.mts
+�   package-lock.json
+�   package.json
+�   prisma.config.ts
+�   tsconfig.json
+�   zcmds.txt
+�   ztree.txt
+�   
++---.husky
+�       pre-commit
+�       
++---node_modules
+�                   
++---prisma
+�   �   schema.prisma
+�   �   
+�   +---migrations
+�       �   migration_lock.toml
+�       �   
+�       +---20260620171759_init_users
+�               migration.sql
+�               
++---src
+    �   index.ts
+    �   
+    +---config
+    �       db.ts
+    �       
+    +---constants
+    �       envConstants.ts
+    �       httpConstants.ts
+    �       
+    +---controllers
+    �       authController.ts
+    �       
+    +---errors
+    �       baseErrorClass.ts
+    �       concreteErrors.ts
+    �       
+    +---generated
+    �   +---prisma
+    �       �   browser.ts
+    �       �   client.ts
+    �       �   commonInputTypes.ts
+    �       �   enums.ts
+    �       �   models.ts
+    �       �   
+    �       +---internal
+    �       �       class.ts
+    �       �       prismaNamespace.ts
+    �       �       prismaNamespaceBrowser.ts
+    �       �       
+    �       +---models
+    �               User.ts
+    �               
+    +---middlewares
+    �       errorHandler.ts
+    �       requestValidator.ts
+    �       validateAuth.ts
+    �       
+    +---repositories
+    �       userRepository.ts
+    �       
+    +---routes
+    �       authRoutes.ts
+    �       
+    +---services
+    �       authService.ts
+    �       
+    +---utils
+            emailUtils.ts
+            responseHandler.ts
+            
