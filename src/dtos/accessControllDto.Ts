@@ -26,3 +26,4 @@ export type AccessControllType = z.infer<typeof AccessControllSchema>;
 export type CreateAccessControllType = z.infer<
   typeof CreateAccessControllSchema
 >;
+export type PermissionModuleType = z.infer<typeof PermissionModuleSchema>;

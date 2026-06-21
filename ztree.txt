@@ -12,17 +12,12 @@
 +---.husky
 �       pre-commit
 �       
++---dist
+�           
 +---node_modules
-�                   
+�               
 +---prisma
 �   �   schema.prisma
-�   �   
-�   +---migrations
-�       �   migration_lock.toml
-�       �   
-�       +---20260620171759_init_users
-�               migration.sql
-�               
 +---src
     �   index.ts
     �   
@@ -35,6 +30,11 @@
     �       
     +---controllers
     �       authController.ts
+    �       
+    +---dtos
+    �       accessControllDto.Ts
+    �       authDto.ts
+    �       userDto.ts
     �       
     +---errors
     �       baseErrorClass.ts
@@ -69,6 +69,10 @@
     �       
     +---services
     �       authService.ts
+    �       
+    +---types
+    �       emailTypes.ts
+    �       expressDefaultTypes.ts
     �       
     +---utils
             emailUtils.ts

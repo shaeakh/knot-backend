@@ -1,27 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { AuthService } from '../services/authService';
 
 const authService = new AuthService();
 
 export class AuthController {
-  async handleGoogleSignIn(req: Request, res: Response): Promise<any> {
-    const { token } = req.body;
-
+  async handleGoogleSignIn(req: Request, res: Response) {
     try {
-      const result = await authService.googleSignIn(token);
-      return res.status(200).json({
-        message: 'Authentication successful',
-        ...result,
-      });
-    } catch (error: any) {
-      console.error('Google Auth Error:', error);
-
-      if (error.message === 'INVALID_GOOGLE_TOKEN') {
-        return res.status(400).json({ error: 'Invalid Google token payload' });
+      const { credential } = req.body;
+      if (!credential) {
+        return res
+          .status(400)
+          .json({ message: 'Google credential is required' });
       }
 
-      return res.status(401).json({ error: 'Authentication failed' });
+      const { token, userPayload } = await authService.googleSignIn(credential);
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.status(200).json(userPayload);
+    } catch (error) {
+      console.error('Google Auth Error:', error);
+      res.status(401).json({ message: 'Authentication failed' });
     }
   }
 }

@@ -42,10 +42,10 @@ export class AuthService {
 
     return {
       token: appToken,
-      user: {
+      userPayload: {
         id: user.id,
-        name: user.name,
         email: user.email,
+        name: user.name,
         avatar: user.avatar,
       },
     };

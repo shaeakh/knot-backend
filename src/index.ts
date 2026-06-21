@@ -2,6 +2,7 @@ import EnvConstant from './constants/envConstants';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = EnvConstant.PORT;
@@ -14,6 +15,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'welcome to Knot' });
