@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { AuthController } from '../controllers/authController';
-import { validateGoogleTokenInput } from '../middlewares/validateAuth';
+import { AuthController } from '@/controllers/authController';
+import { validateGoogleTokenInput } from '@/middlewares/validateAuth';
 
 const router = Router();
 const authController = new AuthController();

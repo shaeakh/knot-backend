@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
+import errorHandler from '@/middlewares/errorHandler';
 
 const app = express();
 const PORT = EnvConstant.PORT;
@@ -22,6 +23,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);

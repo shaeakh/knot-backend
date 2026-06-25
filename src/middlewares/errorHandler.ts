@@ -1,10 +1,16 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { BaseError } from '@/errors/baseErrorClass.js';
 import { ZodError } from 'zod';
 import EnvConstant from '@/constants/envConstants.js';
 import ResponseHandler from '@/utils/responseHandler.js';
 
-export const errorHandler = (err: unknown, req: Request, res: Response) => {
+export const errorHandler = (
+  err: unknown,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction,
+) => {
   let statusCode = 500;
   let message = 'Internal Server Error';
   let stack: string | undefined;

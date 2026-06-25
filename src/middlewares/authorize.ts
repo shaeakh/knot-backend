@@ -2,14 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import Prisma from '@/config/db';
 import { ModuleName, ActionType } from '@/types/authorizeTypes';
 import type { PermissionModuleType } from '@/dtos/accessControllDto';
+import {
+  AuthenticationError,
+  AuthorizationError,
+  NotFoundError,
+} from '@/errors/concreteErrors';
 
 export const authorize = (moduleName: ModuleName, action: ActionType) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (!req.user || !req.user.id) {
-        return res
-          .status(401)
-          .json({ message: 'Unauthorized. Please login first.' });
+        throw new AuthenticationError('Unauthorized. Please login first.');
       }
 
       const user = await Prisma.user.findUnique({
@@ -20,7 +23,7 @@ export const authorize = (moduleName: ModuleName, action: ActionType) => {
       });
 
       if (!user || !user.role) {
-        return res.status(403).json({ message: 'User or Role not found.' });
+        throw new NotFoundError('User or Role not found.');
       }
 
       const modulePermissions = user.role[moduleName] as PermissionModuleType;
@@ -28,14 +31,12 @@ export const authorize = (moduleName: ModuleName, action: ActionType) => {
       if (modulePermissions && modulePermissions[action] === true) {
         return next();
       }
-      return res.status(403).json({
-        message: `Access Denied! You do not have permission to ${action} in ${moduleName}.`,
-      });
+
+      throw new AuthorizationError(
+        `Access Denied! You do not have permission to ${action} in ${moduleName}.`,
+      );
     } catch (error) {
-      console.error('Authorization Error:', error);
-      return res
-        .status(500)
-        .json({ message: 'Internal server error during authorization.' });
+      next(error);
     }
   };
 };

@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Response } from "express";
+import type { Response } from 'express';
+import { ResBodyType } from '@/types/responseTypes';
 
 export default class ResponseHandler {
-  static send(
-    res: Response,
-    statusCode: number,
-    resBody: {
-      data?: any | null;
-      message?: string | null;
-      stack?: any | null;
-    },
-  ) {
+  static send(res: Response, statusCode: number, resBody: ResBodyType) {
     let response: any;
 
     if (!resBody.message && !resBody.stack && resBody.data) {
