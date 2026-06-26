@@ -8,15 +8,12 @@ export class AuthController {
   async handleGoogleSignIn(req: Request, res: Response) {
     try {
       const { credential } = req.body;
-
       if (!credential) {
         return ResponseHandler.send(res, 400, {
           message: 'Google credential is required',
         });
       }
-
       const { token, userPayload } = await authService.googleSignIn(credential);
-
       res.cookie('token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

@@ -8,9 +8,9 @@ export const validateGoogleTokenInput = (
   next: NextFunction,
 ): any => {
   try {
-    const { token } = req.body;
-    if (!token) {
-      throw new BadRequestError('Token is required');
+    const { credential } = req.body;
+    if (!credential) {
+      throw new BadRequestError('Google credential is required');
     }
     next();
   } catch (error) {

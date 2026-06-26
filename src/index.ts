@@ -4,6 +4,8 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
 import errorHandler from '@/middlewares/errorHandler';
+import accessControllRoutes from '@/routes/accessControllRoutes';
+import tshirtRoutes from '@/routes/tshirtRoutes';
 
 const app = express();
 const PORT = EnvConstant.PORT;
@@ -23,6 +25,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/access', accessControllRoutes);
+app.use('/api/tshirts', tshirtRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
