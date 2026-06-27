@@ -11,9 +11,8 @@ model AccessControll {
   roleId               String @id @default(uuid())
   roleName             String @unique
   userModule           Json
-  tshirtModule         Json
+  itemModule           Json
   accessControllModule Json
-  authModule           Json
   users                User[]
 }
 
@@ -30,7 +29,7 @@ model User {
   role   AccessControll @relation(fields: [roleId], references: [roleId])
 }
 
-model TshirtSize {
+model ItemSize {
   id     String @id @unique @default(uuid())
   size   String @unique
   length Float
@@ -40,31 +39,43 @@ model TshirtSize {
   updatedAt DateTime @updatedAt
 }
 
-model Tshirt {
+model Item {
   id          String  @id @default(uuid())
   name        String
+  type        String // "tshirt", "hoodie", "jacket"
   description String?
   price       Float
 
-  variants TshirtVariant[]
+  colors ItemColorVariant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model TshirtVariant {
-  id       String @id @default(uuid())
-  tshirtId String
-  tshirt   Tshirt @relation(fields: [tshirtId], references: [id], onDelete: Cascade)
+model ItemColorVariant {
+  id     String @id @default(uuid())
+  itemId String
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
-  color       String
-  size        String
-  stock       Int     @default(0)
-  images      String
-  isAvailable Boolean @default(true)
+  color  String // "red", "blue", "green"
+  images String
+
+  sizes ItemSizeStock[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([tshirtId, color, size])
+  @@unique([itemId, color])
+}
+
+model ItemSizeStock {
+  id String @id @default(uuid())
+
+  colorVariantId String
+  colorVariant   ItemColorVariant @relation(fields: [colorVariantId], references: [id], onDelete: Cascade)
+
+  size  String // "M", "L", "XL"
+  stock Int    @default(0)
+
+  @@unique([colorVariantId, size])
 }

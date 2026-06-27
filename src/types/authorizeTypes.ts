@@ -1,6 +1,7 @@
 export type ModuleName =
   | 'userModule'
-  | 'tshirtModule'
+  | 'itemModule' // <-- tshirtModule এর বদলে এটি হবে
   | 'accessControllModule'
   | 'authModule';
-export type ActionType = 'view' | 'create' | 'update' | 'delete';
+
+export type ActionType = 'create' | 'update' | 'delete' | 'view';

@@ -1,3 +1,4 @@
+// src/middlewares/authorize.ts
 import { Request, Response, NextFunction } from 'express';
 import Prisma from '@/config/db';
 import { ModuleName, ActionType } from '@/types/authorizeTypes';
@@ -26,7 +27,10 @@ export const authorize = (moduleName: ModuleName, action: ActionType) => {
         throw new NotFoundError('User or Role not found.');
       }
 
-      const modulePermissions = user.role[moduleName] as PermissionModuleType;
+      // 🛠️ ফিক্স: টাইপস্ক্রিপ্টকে বোঝানো হচ্ছে যে এটি একটি ডাইনামিক অবজেক্ট
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const roleData = user.role as Record<string, any>;
+      const modulePermissions = roleData[moduleName] as PermissionModuleType;
 
       if (modulePermissions && modulePermissions[action] === true) {
         return next();
